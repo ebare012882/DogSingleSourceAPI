@@ -8,11 +8,22 @@ const Dog = require('./dog')
 // this will seed our database for us, so we have some starting resources
 // This script will be run, with the command in the terminal `npm run seed`
 
+// router.get("/seed", (req, res) => {
+//     // array of starter fruits
+
+//     // Delete every fruit in the db
+//     Fruit.deleteMany({})
+//         .then(() => {
+//             // seed with the starter fruits array
+//             Fruit.create(startFruits)
+//                 .then(data => {
+//                     res.json(data)
+//                 })
+//         })
+// })
 
 ///////////////////////////////////////
 // Seed Script code
-// npm run seed (from terminal)
-
 ///////////////////////////////////////
 // first we need our connection saved to a variable for easy reference
 const db = mongoose.connection
@@ -21,13 +32,14 @@ db.on('open', () => {
     // bring in the array of starter fruits
     const startDogs = [
         { name: "Rugby", breed: "English Shepherd", easyToTrain: true },
-        { name: "Handsome Stranger", breed: "Jack Russel Terrier", easyToTrain: false },
+        { name: "Handsome Stranger", breed: "Jack Russell Terrier", easyToTrain: false },
         { name: "Buttercup", breed: "Yellow Lab", easyToTrain: false },
         { name: "Trooper", breed: "Pitbull", easyToTrain: true },
+        { name: "Poppy", breed: "Bagel: Bassethound/Beagle Mix", easyToTrain: true }
     ]
 
     // delete all the existing fruits
-    Dog.deleteMany({})
+    Dog.deleteMany({ owner: null })
         .then(deletedDogs => {
             console.log('this is what .deleteMany returns', deletedDogs)
 
