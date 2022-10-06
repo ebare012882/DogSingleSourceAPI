@@ -1,0 +1,26 @@
+{% layout 'layout.liquid' %}
+{% block content %}
+    <div class="container-md">
+        <article>
+            <h2>{{dog.name}}</h2>
+            <h4>
+                {% if dog.easyToTrain %}
+                    Easy Peezy Lemon Squeezy
+                {% else %}
+                    Stressed Depressed Lemon Zest
+                {% endif %}
+            </h4>
+            <h4>The breed of this dog is: {{dog.breed}}</h4>
+            {% if dog.owner == userId %}
+                <div class="btn-group">
+                    {%- comment -%} first button will send us to the edit page {%- endcomment -%}
+                    <a class="btn btn-primary" href="/dogs/edit/{{dog.id}}">Edit</a>
+                    {%- comment -%} the second button(which will actually be a form, will send a DELETE request) {%- endcomment -%}
+                    <form action="/dogs/{{dog.id}}?_method=DELETE" method="POST">
+                        <input class="btn btn-danger" type="submit" value="Delete">
+                    </form>
+                </div>
+            {% endif %}
+        </article>
+    </div>
+{% endblock %}

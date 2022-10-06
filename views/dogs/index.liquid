@@ -1,0 +1,26 @@
+{% layout 'layout.liquid' %}
+{% block content %}
+    <div>
+        <h2 class="display-6">All Dogs</h2>
+        <div class="row">
+            {% for dog in dogs %}
+                <div class="card">
+                    <h5 class="card-header">{{dog.name}}</h5>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {% if dog.easyToTrain %}
+                                Easy Peasy Lemon Squeezy
+                            {% else %}
+                                Stressed Depressed Lemon Zest
+                            {% endif %}
+                        </h5>
+                        <p class="card-text">The color of this {{dog.name}} is {{dog.color}}</p>
+                        <a class="btn btn-info" href="/dogs/{{dog.id}}">
+                            View {{dog.name}}
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

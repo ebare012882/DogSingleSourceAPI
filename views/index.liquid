@@ -1,0 +1,11 @@
+{%- comment -%} this call the layout.liquid page {%- endcomment -%}
+{% layout 'layout.liquid' %}
+{%- comment -%} this sends a block to be inserted into that spot {%- endcomment -%}
+{% block content %}
+    <h1 class="display-4">Who Let the Dawgs Out</h1>
+    <p>This app is all about dogs and comments</p>
+    <div class="btn-group btn-group-lg">
+        <a href="/users/signup" class="btn btn-success">Sign Up</a>
+        <a href="/users/login" class="btn btn-success">Login</a>
+    </div>
+{% endblock %}
