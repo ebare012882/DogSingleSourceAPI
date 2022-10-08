@@ -23,22 +23,23 @@ router.post("/:dogId", (req, res) => {
     } else {
         res.sendStatus(401)
     }
-    // find a specific fruit
+    // find a specific dog
     Dog.findById(dogId)
         // do something if it works
-        //  --> send a success response status and maybe the comment? maybe the fruit?
+        //  --> send a success response status and maybe the comment? maybe the dog?
         .then(dog => {
-            // push the comment into the fruit.comments array
+            // push the comment into the dog.comments array
             dog.comments.push(req.body)
-            // we need to save the fruit
+            // we need to save the dog
             return dog.save()
         })
         .then(dog => {
-            res.status(200).json({ dog: dog })
+            // res.status(200).json({ dog: dog })
+            res.redirect(`/dogs/${dog.id}`)
         })
         // do something else if it doesn't work
         //  --> send some kind of error depending on what went wrong
-        .catch(error => console.log(error))
+        .catch(err => res.redirect(`/error?error=${err}`))
 })
 
 // DELETE
@@ -47,7 +48,7 @@ router.delete('/delete/:dogId/:commId', (req, res) => {
     // isolate the ids and save to vars for easy ref
     const dogId = req.params.dogId 
     const commId = req.params.commId
-    // get the dog
+    // get the fruit
     Dog.findById(dogId)
         .then(dog => {
             // get the comment
@@ -63,18 +64,20 @@ router.delete('/delete/:dogId/:commId', (req, res) => {
                     // here's another built in method
                     theComment.remove()
                     dog.save()
-                    res.sendStatus(204)
+                    res.redirect(`/dogs/${dog.id}`)
                     // return the saved dog
                     // return dog.save()
                 } else {
-                    res.sendStatus(401)
+                    const err = 'you%20are%20not%20authorized%20for%20this%20action'
+                    res.redirect(`/error?error=${err}`)
                 }
             } else {
-                res.sendStatus(401)
+                const err = 'you%20are%20not%20authorized%20for%20this%20action'
+                res.redirect(`/error?error=${err}`)
             }
         })
         // send an error if error
-        .catch(error => console.log(error))
+        .catch(err => res.redirect(`/error?error=${err}`))
 
 })
 

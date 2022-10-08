@@ -4,24 +4,6 @@
 const mongoose = require('./connection')
 const Dog = require('./dog')
 
-// Here, we're going to set up a seed script
-// this will seed our database for us, so we have some starting resources
-// This script will be run, with the command in the terminal `npm run seed`
-
-// router.get("/seed", (req, res) => {
-//     // array of starter fruits
-
-//     // Delete every fruit in the db
-//     Fruit.deleteMany({})
-//         .then(() => {
-//             // seed with the starter fruits array
-//             Fruit.create(startFruits)
-//                 .then(data => {
-//                     res.json(data)
-//                 })
-//         })
-// })
-
 ///////////////////////////////////////
 // Seed Script code
 ///////////////////////////////////////

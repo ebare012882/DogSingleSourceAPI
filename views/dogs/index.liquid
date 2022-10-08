@@ -1,26 +1,33 @@
 {% layout 'layout.liquid' %}
 {% block content %}
-    <div>
-        <h2 class="display-6">All Dogs</h2>
-        <div class="row">
-            {% for dog in dogs %}
-                <div class="card">
-                    <h5 class="card-header">{{dog.name}}</h5>
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            {% if dog.easyToTrain %}
-                                Easy Peasy Lemon Squeezy
-                            {% else %}
-                                Stressed Depressed Lemon Zest
-                            {% endif %}
-                        </h5>
-                        <p class="card-text">The color of this {{dog.name}} is {{dog.color}}</p>
-                        <a class="btn btn-info" href="/dogs/{{dog.id}}">
-                            View {{dog.name}}
-                        </a>
+    {% if dogs.length > 0%}
+        <div>
+            <h2 class="display-6">All dAWWgs</h2>
+            <div class="row">
+                {% for dog in dogs %}
+                    <div class="card" style="width: 18rem;">
+                        <h5 class="card-header">{{dog.name}}</h5>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                {% if dog.easyToTrain %}
+                                    Easy Peezy Lemon Squeezy
+                                {% else %}
+                                    Stressed Depressed Lemon Zest
+                                {% endif %}
+                            </h5>
+                            <p class="card-text">The breed of this {{dog.name}} is {{dog.breed}}</p>
+                    
+                            <a class="btn btn-info" href="/dogs/{{dog.id}}">
+                                View {{dog.name}}
+                            </a>
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
-    </div>
+    {% else %}
+        <div>
+            <h2 class="display-6">No dogs yet... time to add some!</h2>
+        </div>
+    {% endif %}
 {% endblock %}

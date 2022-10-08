@@ -31,11 +31,11 @@ router.get("/", (req, res) => {
             // here, we're going to render a page, but we can also send data that we got from the database to that liquid page for rendering
             res.render('dogs/index', { dogs, username, loggedIn, userId })
         })
-        .catch(err => console.log(err))
+        .catch(err => res.redirect(`/error?error=${err}`))
 })
 
-// GET for new fruit
-// renders the form to create a fruit
+// GET for new dog
+// renders the form to create a dog
 router.get('/new', (req, res) => {
     const username = req.session.username
     const loggedIn = req.session.loggedIn
@@ -43,6 +43,7 @@ router.get('/new', (req, res) => {
 
     res.render('dogs/new', { username, loggedIn, userId })
 })
+
 // POST request
 // create route -> gives the ability to create new dogs
 router.post("/", (req, res) => {
@@ -60,11 +61,15 @@ router.post("/", (req, res) => {
     // we'll use the mongoose model method `create` to make a new fruit
     Dog.create(req.body)
         .then(dog => {
+            const username = req.session.username
+            const loggedIn = req.session.loggedIn
+            const userId = req.session.userId
             // send the user a '201 created' response, along with the new dog
             // res.status(201).json({ dog: dog.toObject() })
             res.redirect('/dogs')
+            // res.render('dogs/show', { dog, username, loggedIn, userId })
         })
-        .catch(error => console.log(error))
+        .catch(err => res.redirect(`/error?error=${err}`))
 })
 
 // GET request
@@ -73,7 +78,7 @@ router.post("/", (req, res) => {
 router.get('/mine', (req, res) => {
     // find the dogs, by ownership
     Dog.find({ owner: req.session.userId })
-    // then display the fruits
+    // then display the dogs
         .then(dogs => {
             const username = req.session.username
             const loggedIn = req.session.loggedIn
@@ -83,59 +88,55 @@ router.get('/mine', (req, res) => {
             res.render('dogs/index', { dogs, username, loggedIn, userId })
         })
     // or throw an error if there is one
-        .catch(error => res.json(error))
+        .catch(err => res.redirect(`/error?error=${err}`))
 })
 
 // GET request to show the update page
 router.get("/edit/:id", (req, res) => {
-    // const username = req.session.username
-    // const loggedIn = req.session.loggedIn
-    // const userId = req.session.userId
-    res.send('edit page')
+    const username = req.session.username
+    const loggedIn = req.session.loggedIn
+    const userId = req.session.userId
+
+    const dogId = req.params.id
+
+    Dog.findById(dogId)
+        // render the edit form if there is a fruit
+        .then(dog => {
+            res.render('dogs/edit', { dog, username, loggedIn, userId })
+        })
+        // redirect if there isn't
+        .catch(err => {
+            res.redirect(`/error?error=${err}`)
+        })
+    // res.send('edit page')
 })
 
 // PUT request
-// update route -> updates a specific fruit
+// update route -> updates a specific dog
 router.put("/:id", (req, res) => {
-    // console.log("I hit the update route", req.params.id)
+    console.log("req.body initially", req.body)
     const id = req.params.id
+
+    req.body.readyToEat = req.body.readyToEat === 'on' ? true : false
+    console.log('req.body after changing checkbox value', req.body)
     Dog.findById(id)
         .then(dog => {
             if (dog.owner == req.session.userId) {
-                res.sendStatus(204)
+                // must return the results of this query
                 return dog.updateOne(req.body)
             } else {
                 res.sendStatus(401)
             }
         })
-        .catch(error => res.json(error))
+        .then(() => {
+            // console.log('returned from update promise', data)
+            res.redirect(`/dogs/${id}`)
+        })
+        .catch(err => res.redirect(`/error?error=${err}`))
 })
 
-// DELETE request
-// destroy route -> finds and deletes a single resource(dog)
-// here lies our old API delete route
-// router.delete("/:id", (req, res) => {
-//     // grab the id from the request
-//     const id = req.params.id
-//     // find and delete the dog
-//     // dog.findByIdAndRemove(id)
-//     dog.findById(id)
-//         .then(dog => {
-//             // we check for ownership against the logged in user's id
-//             if (dog.owner == req.session.userId) {
-//                 // if successful, send a status and delete the dog
-//                 res.sendStatus(204)
-//                 return dog.deleteOne()
-//             } else {
-//                 // if they are not the user, send the unauthorized status
-//                 res.sendStatus(401)
-//             }
-//         })
-//         // send the error if not
-//         .catch(err => res.json(err))
-// })
 router.delete('/:id', (req, res) => {
-    // get the fruit id
+    // get the dog id
     const dogId = req.params.id
 
     // delete and REDIRECT
@@ -144,8 +145,8 @@ router.delete('/:id', (req, res) => {
             // if the delete is successful, send the user back to the index page
             res.redirect('/dogs')
         })
-        .catch(error => {
-            res.json({ error })
+        .catch(err => {
+            res.redirect(`/error?error=${err}`)
         })
 })
 
@@ -166,9 +167,9 @@ router.get("/:id", (req, res) => {
             const loggedIn = req.session.loggedIn
             const userId = req.session.userId
             // res.json({ dog: dog })
-            res.render('fruits/show', { dog, username, loggedIn, userId })
+            res.render('dogs/show', { dog, username, loggedIn, userId })
         })
-        .catch(err => console.log(err))
+        .catch(err => res.redirect(`/error?error=${err}`))
 })
 
 
