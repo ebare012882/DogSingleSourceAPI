@@ -2,7 +2,7 @@
 // Import Dependencies
 ////////////////////////////////////////
 const express = require("express")
-const Dog = require("../models/dog")
+const Dog = require("../models/dogs")  
 
 /////////////////////////////////////////
 // Create Router

@@ -2,7 +2,7 @@
 // Import Dependencies
 ////////////////////////////////////////
 const express = require("express")
-const Dog = require("../models/dog")
+const Dog = require("../models/dogs")
 
 /////////////////////////////////////////
 // Create Router
@@ -102,7 +102,7 @@ router.get("/edit/:id", (req, res) => {
     Dog.findById(dogId)
         // render the edit form if there is a fruit
         .then(dog => {
-            res.render('dogs/edit', { dog, username, loggedIn, userId })
+            res.render('dogs/edit', { dogs, username, loggedIn, userId })
         })
         // redirect if there isn't
         .catch(err => {

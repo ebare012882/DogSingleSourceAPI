@@ -2,7 +2,7 @@
 // Import Dependencies
 ///////////////////////////////////////
 const mongoose = require('./connection')
-const Dog = require('./dog')
+const Dog = require('./dogs')
 
 ///////////////////////////////////////
 // Seed Script code
