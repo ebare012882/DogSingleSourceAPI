@@ -45,10 +45,10 @@ router.post("/:dogId", (req, res) => {
 // DELETE
 // only the author of the comment can delete it
 router.delete('/delete/:dogId/:commId', (req, res) => {
-    // isolate the ids and save to vars for easy ref
+    // isolate the ids and save to variables for easy ref
     const dogId = req.params.dogId 
     const commId = req.params.commId
-    // get the fruit
+    // get the dog
     Dog.findById(dogId)
         .then(dog => {
             // get the comment

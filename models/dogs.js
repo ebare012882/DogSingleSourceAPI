@@ -16,8 +16,8 @@ const { Schema, model } = mongoose
 // fruits schema
 const dogSchema = new Schema({
     name: String,
-    color: String,
-    readyToEat: Boolean,
+    breed: String,
+    easyToTrain: Boolean,
     owner: {
         // here we can refer to an objectId
         // by declaring that as the type

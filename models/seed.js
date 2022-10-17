@@ -25,7 +25,7 @@ db.on('open', () => {
         .then(deletedDogs => {
             console.log('this is what .deleteMany returns', deletedDogs)
 
-            // create a bunch of new fruits from startFruits
+            // create a bunch of new dogs from startDogss
             Dog.create(startDogs)
                 .then(data => {
                     console.log('here are the newly created dogs', data)

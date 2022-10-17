@@ -11,7 +11,7 @@
                 {% endif %}
             </h4>
             <h4>The breed of this dog is: {{dog.breed}}</h4>
-            <div class="colorBox" style="background-color: {{dog.breed}}"></div>
+            {%- comment -%} <div class="colorBox" style="background-color: {{dog.breed}}"></div> {%- endcomment -%}
             {% if dog.owner == userId %}
                 <div class="btn-group">
                     {%- comment -%} first button will send us to the edit page {%- endcomment -%}

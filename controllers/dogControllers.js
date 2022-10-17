@@ -54,13 +54,13 @@ router.post("/", (req, res) => {
     req.body.easyToTrain = req.body.easyToTrain === 'on' ? true : false
     // here, we'll get something called a request body
     // inside this function, that will be referred to as req.body
-    // this is going to add ownership, via a foreign key reference, to our fruits
+    // this is going to add ownership, via a foreign key reference, to our dogs
     // basically, all we have to do, is append our request body, with the `owner` field, and set the value to the logged in user's id
     req.body.owner = req.session.userId
     console.log('the dog from the form', req.body)
-    // we'll use the mongoose model method `create` to make a new fruit
+    // we'll use the mongoose model method `create` to make a new dog
     Dog.create(req.body)
-        .then(dog => {
+        .then(dogs => {
             const username = req.session.username
             const loggedIn = req.session.loggedIn
             const userId = req.session.userId
@@ -100,9 +100,9 @@ router.get("/edit/:id", (req, res) => {
     const dogId = req.params.id
 
     Dog.findById(dogId)
-        // render the edit form if there is a fruit
+        // render the edit form if there is a dog
         .then(dog => {
-            res.render('dogs/edit', { dogs, username, loggedIn, userId })
+            res.render('dogs/edit', { dog, username, loggedIn, userId })
         })
         // redirect if there isn't
         .catch(err => {
@@ -117,7 +117,7 @@ router.put("/:id", (req, res) => {
     console.log("req.body initially", req.body)
     const id = req.params.id
 
-    req.body.readyToEat = req.body.readyToEat === 'on' ? true : false
+    req.body.easyToTrain = req.body.easyToTrain === 'on' ? true : false
     console.log('req.body after changing checkbox value', req.body)
     Dog.findById(id)
         .then(dog => {
@@ -140,7 +140,7 @@ router.delete('/:id', (req, res) => {
     const dogId = req.params.id
 
     // delete and REDIRECT
-    Dog.findByIdAndRemove(fruitId)
+    Dog.findByIdAndRemove(dogId)
         .then(dog => {
             // if the delete is successful, send the user back to the index page
             res.redirect('/dogs')
